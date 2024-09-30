@@ -1,19 +1,26 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
     Container,
     Title,
     ButtonCart
 } from "./styles";
+import IconCartWithCounter from "../IconCartWithCounter";
 
-import Feather from '@expo/vector-icons/Feather';
+import { AppContext } from "../../contexts/app";
+
+import { useNavigation } from "@react-navigation/native";
 
 export default function Header({ title }) {
+    const navigation = useNavigation()
+
+    const { listProductsAdd } = useContext(AppContext)
+
     return (
         <Container>
             <Title>{title}</Title>
 
-            <ButtonCart>
-                <Feather name="shopping-cart" size={24} color="black" />
+            <ButtonCart onPress={() => navigation.navigate('Cart')}>
+                <IconCartWithCounter count={listProductsAdd.length} />
             </ButtonCart>
         </Container>
     )

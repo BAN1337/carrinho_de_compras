@@ -1,21 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
-    Background,
+    Container,
     List
 } from "./styles";
 import Header from "../../components/Header";
 import ProductList from "../../components/ProductList";
 
+import { AppContext } from "../../contexts/app";
+
 export default function Home() {
+    const { listProducts } = useContext(AppContext)
+
     return (
-        <Background>
+        <Container>
             <Header title='Lista de Produtos' />
 
             <List
-                data={[]}
+                data={listProducts}
                 keyExtractor={item => item.id}
                 renderItem={({ item }) => <ProductList data={item} />}
             />
-        </Background>
+        </Container>
     )
 }

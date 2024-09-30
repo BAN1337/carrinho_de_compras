@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
     Container,
     ViewInfos,
@@ -8,18 +8,24 @@ import {
     ButtonAdd
 } from "./styles";
 
+import Feather from '@expo/vector-icons/Feather';
+
+import { AppContext } from "../../contexts/app";
+
 export default function ProductList({ data }) {
+    const { addProductToCart } = useContext(AppContext)
+
     return (
         <Container>
             <ViewInfos>
-                <ProductName></ProductName>
+                <ProductName>{data.name}</ProductName>
 
-                <ProductValue>R$ </ProductValue>
+                <ProductValue>R$ {data.price.toFixed(2)}</ProductValue>
             </ViewInfos>
 
             <ViewButton>
-                <ButtonAdd>
-
+                <ButtonAdd onPress={() => addProductToCart(data)}>
+                    <Feather name="plus" size={12} color="black" />
                 </ButtonAdd>
             </ViewButton>
         </Container>
