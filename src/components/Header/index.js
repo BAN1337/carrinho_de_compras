@@ -6,7 +6,7 @@ import {
 } from "./styles";
 import IconCartWithCounter from "../IconCartWithCounter";
 
-import { AppContext } from "../../contexts/app";
+import { AppContext } from "../../contexts/cart";
 
 import { useNavigation } from "@react-navigation/native";
 

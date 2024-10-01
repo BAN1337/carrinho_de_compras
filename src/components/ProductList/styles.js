@@ -13,9 +13,6 @@ export const Container = styled.View`
 `
 
 export const ViewInfos = styled.View`
-    
-`
-export const ViewButton = styled.View`
 `
 
 export const ProductName = styled.Text`
@@ -23,10 +20,13 @@ export const ProductName = styled.Text`
 `
 
 export const ProductValue = styled.Text`
+`
 
+export const ViewButton = styled.View`
 `
 
 export const ButtonAdd = styled.TouchableOpacity`
     background-color: #1490FE;
+    border-radius: 5px;
     padding: 8px;
 `

@@ -32,6 +32,7 @@ export const ButtonRemove = styled.TouchableOpacity`
     align-self: flex-start;
     background-color: #1490FE;
     padding: 8px;
+    border-radius: 5px;
 `
 
 export const ViewQuant = styled.View`
@@ -50,4 +51,5 @@ export const ButtonAdd = styled.TouchableOpacity`
     align-self: flex-start;
     background-color: #1490FE;
     padding: 8px;
+    border-radius: 5px;
 `

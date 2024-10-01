@@ -3,45 +3,8 @@ import React, { createContext, useState, useEffect } from "react";
 export const AppContext = createContext({})
 
 export default function AppProvider({ children }) {
-    const [listProducts, setListProducts] = useState([])
     const [listProductsAdd, setListProductsAdd] = useState([])
     const [total, setTotal] = useState(0)
-
-    useEffect(() => {
-        function loadProducts() {
-            setListProducts(
-                [
-                    {
-                        id: '1',
-                        name: 'Coca-Cola',
-                        price: 19.90
-                    },
-                    {
-                        id: '2',
-                        name: 'Chocolate',
-                        price: 6.50
-                    },
-                    {
-                        id: '3',
-                        name: 'Queijo 500g',
-                        price: 15.00
-                    },
-                    {
-                        id: '4',
-                        name: 'Batata Frita',
-                        price: 23.90
-                    },
-                    {
-                        id: '5',
-                        name: 'Guarana Lata',
-                        price: 6.00
-                    }
-                ]
-            )
-        }
-
-        loadProducts()
-    }, [listProductsAdd])
 
     function addProductToCart(product) {
         const result = listProductsAdd.find(item => item.name === product.name)
@@ -71,8 +34,10 @@ export default function AppProvider({ children }) {
         setTotal(total.toFixed(2))
     }
 
+
+
     return (
-        <AppContext.Provider value={{ listProducts, listProductsAdd, setListProductsAdd, addProductToCart, sumTotal, total }}>
+        <AppContext.Provider value={{ listProductsAdd, setListProductsAdd, addProductToCart, sumTotal, total }}>
             {children}
         </AppContext.Provider>
     )

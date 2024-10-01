@@ -13,7 +13,7 @@ import {
 
 import Feather from '@expo/vector-icons/Feather';
 
-import { AppContext } from "../../contexts/app";
+import { AppContext } from "../../contexts/cart";
 
 export default function ProductListCart({ data }) {
     const [quant, setQuant] = useState(data.quant)
