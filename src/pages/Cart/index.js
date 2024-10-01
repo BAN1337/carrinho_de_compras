@@ -1,38 +1,34 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import {
-    Background,
     Container,
     Text,
     List,
     Total
 } from "./styles";
 
-import { AppContext } from "../../contexts/cart";
+import { CartContext } from "../../contexts/cart";
 
 import ProductListCart from "../../components/ProductListCart";
 
 export default function Cart() {
-    const { listProductsAdd, total, sumTotal } = useContext(AppContext)
-
-    useEffect(() => {
-        sumTotal()
-    }, [listProductsAdd])
+    const { listProductsAdd, total, addProductCart, removeProductCart } = useContext(CartContext)
 
     return (
-        <Background>
-            <Container>
-                {listProductsAdd.length === 0 ? (
-                    <Text>Nenhum item no carrinho...</Text>
-                ) : (
-                    <List
-                        data={listProductsAdd}
-                        keyExtractor={item => item.name}
-                        renderItem={({ item }) => <ProductListCart data={item} />}
+        <Container>
+            <List
+                data={listProductsAdd}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={item => item.id}
+                ListEmptyComponent={() => <Text>Nenhum item no carrinho...</Text>}
+                renderItem={({ item }) => (
+                    <ProductListCart
+                        data={item}
+                        addQuant={() => addProductCart(item)}
+                        removeQuant={() => removeProductCart(item)}
                     />
                 )}
-
-                <Total>Total: R$ {total}</Total>
-            </Container>
-        </Background>
+                ListFooterComponent={() => <Total>Total: R$ {total}</Total>}
+            />
+        </Container>
     )
 }

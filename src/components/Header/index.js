@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
     Container,
     Title,
@@ -6,21 +6,17 @@ import {
 } from "./styles";
 import IconCartWithCounter from "../IconCartWithCounter";
 
-import { AppContext } from "../../contexts/cart";
-
 import { useNavigation } from "@react-navigation/native";
 
-export default function Header({ title }) {
+export default function Header({ title, count }) {
     const navigation = useNavigation()
-
-    const { listProductsAdd } = useContext(AppContext)
 
     return (
         <Container>
             <Title>{title}</Title>
 
             <ButtonCart onPress={() => navigation.navigate('Cart')}>
-                <IconCartWithCounter count={listProductsAdd.length} />
+                <IconCartWithCounter count={count} />
             </ButtonCart>
         </Container>
     )

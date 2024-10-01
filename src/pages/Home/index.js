@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
     Container,
     List
 } from "./styles";
 import Header from "../../components/Header";
 import ProductList from "../../components/ProductList";
+import { CartContext } from "../../contexts/cart";
 
 export default function Home() {
     const [listProducts, setListProducts] = useState([
@@ -35,14 +36,20 @@ export default function Home() {
         }
     ])
 
+    const { listProductsAdd, addProductCart } = useContext(CartContext)
+
+    function handleAddCart(product) {
+        addProductCart(product)
+    }
+
     return (
         <Container>
-            <Header title='Lista de Produtos' />
+            <Header title='Lista de Produtos' count={listProductsAdd?.length} />
 
             <List
                 data={listProducts}
                 keyExtractor={item => item.id}
-                renderItem={({ item }) => <ProductList data={item} />}
+                renderItem={({ item }) => <ProductList data={item} addToCart={() => handleAddCart(item)} />}
             />
         </Container>
     )

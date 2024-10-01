@@ -1,44 +1,74 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState } from "react";
 
-export const AppContext = createContext({})
+export const CartContext = createContext({})
 
-export default function AppProvider({ children }) {
+export default function CartProvider({ children }) {
     const [listProductsAdd, setListProductsAdd] = useState([])
     const [total, setTotal] = useState(0)
 
-    function addProductToCart(product) {
-        const result = listProductsAdd.find(item => item.name === product.name)
+    function addProductCart(product) {
+        const indexItem = listProductsAdd.findIndex(item => item.id === product.id)
 
-        if (!result) {
+        if (indexItem !== -1) {
+            let cartList = listProductsAdd
+
+            cartList[indexItem].quant += 1
+
+            cartList[indexItem].total = cartList[indexItem].quant * cartList[indexItem].price
+
+            setListProductsAdd(cartList)
+            sumTotal(cartList)
+        } else {
             let newProduct = {
-                name: product.name,
-                price: product.price,
-                quant: 1
+                ...product,
+                quant: 1,
+                total: product.price
             }
 
-            let NewListProductsAdd = [...listProductsAdd, newProduct]
-
-            setListProductsAdd(NewListProductsAdd)
-        } else {
-            let index = listProductsAdd.indexOf(result)
-            listProductsAdd.splice(index, 1, { name: result.name, price: result.price, quant: result.quant + 1 })
-            setListProductsAdd(listProductsAdd)
+            setListProductsAdd(products => [...products, newProduct])
+            sumTotal([...listProductsAdd, newProduct])
         }
     }
 
-    function sumTotal() {
-        let total = 0
-        listProductsAdd.forEach((product) => {
-            total += (parseFloat(product.quant) * parseFloat(product.price))
-        })
-        setTotal(total.toFixed(2))
+    function removeProductCart(product) {
+        const indexItem = listProductsAdd.findIndex(item => item.id === product.id)
+
+        let cartList = listProductsAdd
+
+        if (cartList[indexItem]?.quant > 1) {
+
+            cartList[indexItem].quant -= 1
+
+            cartList[indexItem].total -= cartList[indexItem].price
+
+            setListProductsAdd(cartList)
+            sumTotal(cartList)
+        } else {
+            const removeItem = listProductsAdd.filter(item => item.id !== product.id)
+
+            setListProductsAdd(removeItem)
+            sumTotal(removeItem)
+        }
     }
 
+    function sumTotal(products) {
+        let myCart = products
 
+        let result = myCart.reduce((accum, product) => { return accum + product.total }, 0)
+
+        setTotal(result.toFixed(2))
+    }
 
     return (
-        <AppContext.Provider value={{ listProductsAdd, setListProductsAdd, addProductToCart, sumTotal, total }}>
+        <CartContext.Provider
+            value={{
+                listProductsAdd,
+                total,
+                addProductCart,
+                removeProductCart
+            }}
+        >
             {children}
-        </AppContext.Provider>
+        </CartContext.Provider>
     )
 }

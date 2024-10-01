@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import {
     Container,
     ViewInfos,
@@ -13,28 +13,17 @@ import {
 
 import Feather from '@expo/vector-icons/Feather';
 
-import { AppContext } from "../../contexts/cart";
+export default function ProductListCart({ data, addQuant, removeQuant }) {
+    const [quant, setQuant] = useState(data?.quant)
 
-export default function ProductListCart({ data }) {
-    const [quant, setQuant] = useState(data.quant)
-
-    const { sumTotal, listProductsAdd, setListProductsAdd } = useContext(AppContext)
-
-    function sumProductOnCart() {
-        data.quant += 1
-        setQuant(quant + 1)
-        sumTotal()
+    function handleIncrease() {
+        addQuant()
+        setQuant(item => item + 1)
     }
 
-    function remProductOnCart() {
-        if (data.quant > 1) {
-            data.quant -= 1
-            setQuant(quant - 1)
-            sumTotal()
-        } else {
-            let index = listProductsAdd.indexOf(data)
-            setListProductsAdd([...listProductsAdd.slice(0, index), ...listProductsAdd.slice(index + 1, listProductsAdd.length)])
-        }
+    function handleDecrease() {
+        removeQuant()
+        setQuant(item => item - 1)
     }
 
     return (
@@ -46,7 +35,7 @@ export default function ProductListCart({ data }) {
             </ViewInfos>
 
             <ViewButtons>
-                <ButtonRemove onPress={remProductOnCart}>
+                <ButtonRemove onPress={handleDecrease}>
                     <Feather name="minus" size={12} color="black" />
                 </ButtonRemove>
 
@@ -54,7 +43,7 @@ export default function ProductListCart({ data }) {
                     <TextQuant>{quant}</TextQuant>
                 </ViewQuant>
 
-                <ButtonAdd onPress={sumProductOnCart}>
+                <ButtonAdd onPress={handleIncrease}>
                     <Feather name="plus" size={12} color="black" />
                 </ButtonAdd>
             </ViewButtons>
